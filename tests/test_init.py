@@ -23,7 +23,7 @@ def test_init_workflow_contains_username(tmp_path: Path) -> None:
     assert "username: sahu-adarsh" in workflow
     assert "secrets.LEETCODE_SESSION" in workflow
     assert "secrets.GITHUB_TOKEN" in workflow
-    assert "adarshsahu1077/leetpush@v1" in workflow
+    assert "sahu-adarsh/leetpush@v1" in workflow
 
 
 def test_init_config_contains_username(tmp_path: Path) -> None:

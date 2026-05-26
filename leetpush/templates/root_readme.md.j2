@@ -1,6 +1,6 @@
 # My LeetCode Solutions
 
-> Auto-synced by [LeetPush](https://github.com/adarshsahu1077/leetpush)
+> Auto-synced by [LeetPush](https://github.com/sahu-adarsh/leetpush)
 
 ## Activity
 
