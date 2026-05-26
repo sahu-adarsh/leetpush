@@ -1,42 +1,64 @@
-# My LeetCode Solutions
+<div align="center">
+
+# LeetCode Solutions
 
 > Auto-synced by [LeetPush](https://github.com/sahu-adarsh/leetpush)
+
+[![Solved](https://img.shields.io/badge/Solved-{{ index.total }}-0a0a0a?style=for-the-badge&logo=leetcode&logoColor=ffa116)](.)
+[![Streak](https://img.shields.io/badge/Streak-{{ current_streak }}%20days-FC7B03?style=for-the-badge)](.)
+[![Longest](https://img.shields.io/badge/Longest-{{ longest_streak }}%20days-8957E5?style=for-the-badge)](.)
+
+</div>
+
+---
 
 ## Activity
 
 ![LeetCode Activity](./activity.svg)
 
-## Stats
-
-![Total Solved](https://img.shields.io/badge/solved-{{ index.total }}-blue?style=flat-square)
-![Easy](https://img.shields.io/badge/easy-{{ by_diff.Easy }}-brightgreen?style=flat-square)
-![Medium](https://img.shields.io/badge/medium-{{ by_diff.Medium }}-yellow?style=flat-square)
-![Hard](https://img.shields.io/badge/hard-{{ by_diff.Hard }}-red?style=flat-square)
-![Streak](https://img.shields.io/badge/streak-{{ current_streak }}_days-orange?style=flat-square)
-![Longest Streak](https://img.shields.io/badge/longest_streak-{{ longest_streak }}_days-blueviolet?style=flat-square)
+---
 
 ## Progress
 
-| Difficulty | Solved | Bar |
-|:-----------|-------:|:----|
-| Easy       | {{ by_diff.Easy }}   | {{ bar(by_diff.Easy, index.total) }} |
-| Medium     | {{ by_diff.Medium }} | {{ bar(by_diff.Medium, index.total) }} |
-| Hard       | {{ by_diff.Hard }}   | {{ bar(by_diff.Hard, index.total) }} |
+| Difficulty | Solved | Distribution |
+|:-----------|:------:|:-------------|
+| ![](https://img.shields.io/badge/-Easy-brightgreen?style=flat-square) | **{{ by_diff.Easy }}** | {{ bar(by_diff.Easy, index.total) }} `{{ pct(by_diff.Easy, index.total) }}` |
+| ![](https://img.shields.io/badge/-Medium-yellow?style=flat-square) | **{{ by_diff.Medium }}** | {{ bar(by_diff.Medium, index.total) }} `{{ pct(by_diff.Medium, index.total) }}` |
+| ![](https://img.shields.io/badge/-Hard-critical?style=flat-square) | **{{ by_diff.Hard }}** | {{ bar(by_diff.Hard, index.total) }} `{{ pct(by_diff.Hard, index.total) }}` |
 
-## By Topic
-
-| Topic | Count |
-|:------|------:|
-{% for topic, count in by_topic.items() -%}
-| {{ topic }} | {{ count }} |
-{% endfor %}
-## Recently Solved
-
-| # | Problem | Difficulty | Languages | Solved |
-|---|:--------|:----------:|:----------|:-------|
-{% for p in recent -%}
-| {{ p.id }} | [{{ p.title }}]({{ p.folder }}) | {{ p.difficulty }} | {{ p.languages | join(", ") }} | {{ p.submissions | map(attribute='solved_at') | max | strdate }} |
-{% endfor %}
 ---
 
-*Last synced: {{ index.last_synced }}*
+## Recently Solved
+
+| # | Problem | Difficulty | Solved |
+|--:|:--------|:----------:|:------:|
+{% for p in recent[:5] -%}
+| {{ p.id }} | [{{ p.title }}]({{ p.folder }}) | {{ p.difficulty }} | {{ p.submissions | map(attribute='solved_at') | max | strdate }} |
+{% endfor %}
+
+---
+
+## Topics
+
+| Topic | Problems |
+|:------|:--------:|
+{% for topic, count in by_topic_list[:8] -%}
+| {{ topic }} | {{ count }} |
+{% endfor %}
+{% if by_topic_list | length > 8 %}
+<details>
+<summary>{{ (by_topic_list | length) - 8 }} more topics</summary>
+<br>
+
+| Topic | Problems |
+|:------|:--------:|
+{% for topic, count in by_topic_list[8:] -%}
+| {{ topic }} | {{ count }} |
+{% endfor %}
+
+</details>
+{% endif %}
+
+---
+
+<div align="center"><sub>Last synced: {{ index.last_synced[:10] }}</sub></div>

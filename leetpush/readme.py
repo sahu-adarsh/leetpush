@@ -25,11 +25,16 @@ def _make_env() -> Environment:
         filled = round(count / total * width)
         return "`" + "█" * filled + "░" * (width - filled) + "`"
 
+    def pct(count: int, total: int) -> str:
+        if total == 0:
+            return "0%"
+        return f"{round(count / total * 100)}%"
+
     def strdate(iso: str) -> str:
-        """'2026-05-25T10:30:00Z' → '2026-05-25'"""
         return iso[:10] if iso else ""
 
     env.globals["bar"] = bar
+    env.globals["pct"] = pct
     env.filters["strdate"] = strdate
 
     return env
@@ -45,6 +50,7 @@ def generate_root_readme(index: SolutionsIndex) -> str:
         index=index,
         by_diff=index.by_difficulty,
         by_topic=index.by_topic,
+        by_topic_list=list(index.by_topic.items()),
         recent=index.recent,
         current_streak=current_streak,
         longest_streak=longest_streak,

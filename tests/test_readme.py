@@ -24,10 +24,11 @@ def _make_index() -> SolutionsIndex:
 def test_root_readme_contains_stats() -> None:
     idx = _make_index()
     out = generate_root_readme(idx)
-    assert "solved-3" in out
-    assert "easy-1" in out
-    assert "medium-1" in out
-    assert "hard-1" in out
+    assert "Solved-3" in out          # total badge
+    assert "Easy" in out              # progress table
+    assert "Medium" in out
+    assert "Hard" in out
+    assert "33%" in out               # pct of 1/3
 
 
 def test_root_readme_contains_problems() -> None:
