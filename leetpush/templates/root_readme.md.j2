@@ -1,0 +1,36 @@
+# My LeetCode Solutions
+
+> Auto-synced by [LeetPush](https://github.com/adarshsahu1077/leetpush)
+
+## Stats
+
+![Total Solved](https://img.shields.io/badge/solved-{{ index.total }}-blue?style=flat-square)
+![Easy](https://img.shields.io/badge/easy-{{ by_diff.Easy }}-brightgreen?style=flat-square)
+![Medium](https://img.shields.io/badge/medium-{{ by_diff.Medium }}-yellow?style=flat-square)
+![Hard](https://img.shields.io/badge/hard-{{ by_diff.Hard }}-red?style=flat-square)
+
+## Progress
+
+| Difficulty | Solved | Bar |
+|:-----------|-------:|:----|
+| Easy       | {{ by_diff.Easy }}  | {{ bar(by_diff.Easy, index.total) }} |
+| Medium     | {{ by_diff.Medium }} | {{ bar(by_diff.Medium, index.total) }} |
+| Hard       | {{ by_diff.Hard }}  | {{ bar(by_diff.Hard, index.total) }} |
+
+## By Topic
+
+| Topic | Count |
+|:------|------:|
+{% for topic, count in by_topic.items() -%}
+| {{ topic }} | {{ count }} |
+{% endfor %}
+## Recently Solved
+
+| # | Problem | Difficulty | Languages | Solved |
+|---|:--------|:----------:|:----------|:-------|
+{% for p in recent -%}
+| {{ p.id }} | [{{ p.title }}]({{ p.folder }}) | {{ p.difficulty }} | {{ p.languages | join(", ") }} | {{ p.submissions | map(attribute='solved_at') | max | strdate }} |
+{% endfor %}
+---
+
+*Last synced: {{ index.last_synced }}*

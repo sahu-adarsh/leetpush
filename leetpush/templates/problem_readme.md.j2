@@ -1,0 +1,25 @@
+# {{ problem.id }}. {{ problem.title }}
+
+**Difficulty:** {{ problem.difficulty }}
+**Topics:** {{ problem.topics | join(", ") }}
+**Problem:** {{ problem.url }}
+
+---
+
+## Solutions
+
+| Language | Runtime | Memory | Solved |
+|:---------|--------:|-------:|:-------|
+{% for s in problem.submissions -%}
+| {{ s.language }} | {{ s.runtime_ms ~ " ms" if s.runtime_ms else "N/A" }} | {{ "%.1f MB" | format(s.memory_mb) if s.memory_mb else "N/A" }} | {{ s.solved_at | strdate }} |
+{% endfor %}
+---
+
+## Approach
+
+<!-- Add your notes here -->
+
+## Complexity
+
+- Time:
+- Space:
