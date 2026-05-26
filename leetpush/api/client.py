@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 import re
-from datetime import date, timezone
+from datetime import date, datetime, timezone
 
 import requests
 
@@ -127,6 +127,6 @@ class LeetCodeClient(LeetCodeAPI):
         raw = data["matchedUser"]["userCalendar"]["submissionCalendar"]
         ts_map: dict[str, int] = json.loads(raw)
         return {
-            date.fromtimestamp(int(ts), tz=timezone.utc).isoformat(): count
+            datetime.fromtimestamp(int(ts), tz=timezone.utc).date().isoformat(): count
             for ts, count in ts_map.items()
         }
