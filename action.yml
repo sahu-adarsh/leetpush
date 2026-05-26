@@ -1,0 +1,22 @@
+name: 'LeetPush'
+description: 'Auto-sync your LeetCode solutions to GitHub — beautifully'
+author: 'Adarsh Sahu'
+
+branding:
+  icon: 'upload-cloud'
+  color: 'orange'
+
+inputs:
+  leetcode-session:
+    description: 'Value of the LEETCODE_SESSION cookie from leetcode.com'
+    required: true
+  github-token:
+    description: 'GitHub token for pushing commits — use secrets.GITHUB_TOKEN'
+    required: true
+  username:
+    description: 'Your LeetCode username (shown in your profile URL)'
+    required: true
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
