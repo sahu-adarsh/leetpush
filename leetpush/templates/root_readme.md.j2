@@ -2,20 +2,26 @@
 
 > Auto-synced by [LeetPush](https://github.com/adarshsahu1077/leetpush)
 
+## Activity
+
+![LeetCode Activity](./activity.svg)
+
 ## Stats
 
 ![Total Solved](https://img.shields.io/badge/solved-{{ index.total }}-blue?style=flat-square)
 ![Easy](https://img.shields.io/badge/easy-{{ by_diff.Easy }}-brightgreen?style=flat-square)
 ![Medium](https://img.shields.io/badge/medium-{{ by_diff.Medium }}-yellow?style=flat-square)
 ![Hard](https://img.shields.io/badge/hard-{{ by_diff.Hard }}-red?style=flat-square)
+![Streak](https://img.shields.io/badge/streak-{{ current_streak }}_days-orange?style=flat-square)
+![Longest Streak](https://img.shields.io/badge/longest_streak-{{ longest_streak }}_days-blueviolet?style=flat-square)
 
 ## Progress
 
 | Difficulty | Solved | Bar |
 |:-----------|-------:|:----|
-| Easy       | {{ by_diff.Easy }}  | {{ bar(by_diff.Easy, index.total) }} |
+| Easy       | {{ by_diff.Easy }}   | {{ bar(by_diff.Easy, index.total) }} |
 | Medium     | {{ by_diff.Medium }} | {{ bar(by_diff.Medium, index.total) }} |
-| Hard       | {{ by_diff.Hard }}  | {{ bar(by_diff.Hard, index.total) }} |
+| Hard       | {{ by_diff.Hard }}   | {{ bar(by_diff.Hard, index.total) }} |
 
 ## By Topic
 

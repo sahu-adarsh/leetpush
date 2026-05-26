@@ -92,6 +92,12 @@ def write_root_readme(repo_root: Path, content: str) -> Path:
     return path
 
 
+def write_heatmap(repo_root: Path, svg_content: str) -> Path:
+    path = repo_root / "activity.svg"
+    path.write_text(svg_content, encoding="utf-8")
+    return path
+
+
 # ---------------------------------------------------------------------------
 # Note preservation
 # ---------------------------------------------------------------------------

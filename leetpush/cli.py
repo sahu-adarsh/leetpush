@@ -11,10 +11,12 @@ from .files import (
     build_problem_from_api,
     build_submission_from_api,
     deduplicate_submissions,
+    write_heatmap,
     write_problem_readme,
     write_root_readme,
     write_solution,
 )
+from .heatmap import generate_heatmap_svg
 from .models import SolutionsIndex
 from .readme import generate_problem_readme, generate_root_readme
 from .store import load_index, save_index
@@ -99,8 +101,9 @@ def sync(mock: bool, session: str | None, username: str | None, limit: int, repo
             index.upsert_problem(problem)
             new_count += 1
 
-    # Persist index + regenerate root README
+    # Persist index + regenerate root README + heatmap
     save_index(repo_root, index)
+    write_heatmap(repo_root, generate_heatmap_svg(index))
     root_readme = generate_root_readme(index)
     write_root_readme(repo_root, root_readme)
 
@@ -117,9 +120,10 @@ def readme(repo: str) -> None:
         click.echo("solutions.json is empty — run `lp sync` first.", err=True)
         sys.exit(1)
 
+    write_heatmap(repo_root, generate_heatmap_svg(index))
     content = generate_root_readme(index)
     write_root_readme(repo_root, content)
-    click.echo(f"README.md regenerated ({index.total} problems).")
+    click.echo(f"README.md and activity.svg regenerated ({index.total} problems).")
 
 
 @main.command()

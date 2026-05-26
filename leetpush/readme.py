@@ -4,6 +4,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from .heatmap import compute_streaks
 from .models import Problem, SolutionsIndex
 
 _TEMPLATES_DIR = Path(__file__).parent / "templates"
@@ -38,12 +39,15 @@ _env = _make_env()
 
 
 def generate_root_readme(index: SolutionsIndex) -> str:
+    current_streak, longest_streak = compute_streaks(index)
     tmpl = _env.get_template("root_readme.md.j2")
     return tmpl.render(
         index=index,
         by_diff=index.by_difficulty,
         by_topic=index.by_topic,
         recent=index.recent,
+        current_streak=current_streak,
+        longest_streak=longest_streak,
     )
 
 
