@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "leetpush"
+version = "0.1.0"
+description = "Push your LeetCode solutions to GitHub — beautifully"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "click>=8.1",
+    "jinja2>=3.1",
+    "requests>=2.31",
+]
+
+[project.scripts]
+lp = "leetpush.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4",
+    "pytest-mock>=3.12",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["leetpush"]
+include = ["leetpush/templates/*"]
