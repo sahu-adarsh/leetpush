@@ -7,10 +7,10 @@ branding:
   color: 'orange'
 
 inputs:
-  leetcode-session:
+  leetcode_session:
     description: 'Value of the LEETCODE_SESSION cookie from leetcode.com'
     required: true
-  github-token:
+  github_token:
     description: 'GitHub token for pushing commits — use secrets.GITHUB_TOKEN'
     required: true
   username:
