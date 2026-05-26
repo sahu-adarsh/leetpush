@@ -68,6 +68,15 @@ def test_build_counts_empty_index() -> None:
     assert _build_counts(SolutionsIndex.empty()) == {}
 
 
+def test_build_counts_prefers_calendar() -> None:
+    idx = SolutionsIndex.empty()
+    idx.calendar = {"2026-01-01": 5, "2026-01-02": 3}
+    # Even though there are no problems, calendar data should be used
+    counts = _build_counts(idx)
+    assert counts[date(2026, 1, 1)] == 5
+    assert counts[date(2026, 1, 2)] == 3
+
+
 # ---------------------------------------------------------------------------
 # compute_streaks
 # ---------------------------------------------------------------------------

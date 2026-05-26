@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import date, timezone
+
 from .base import LeetCodeAPI
 
 # ---------------------------------------------------------------------------
@@ -166,3 +168,10 @@ class MockLeetCodeClient(LeetCodeAPI):
         if submission_id not in _DETAILS:
             raise KeyError(f"Mock has no submission with id '{submission_id}'")
         return _DETAILS[submission_id]
+
+    def get_submission_calendar(self, username: str) -> dict[str, int]:
+        counts: dict[str, int] = {}
+        for sub in _SUBMISSIONS:
+            d = date.fromtimestamp(int(sub["timestamp"]), tz=timezone.utc).isoformat()
+            counts[d] = counts.get(d, 0) + 1
+        return counts

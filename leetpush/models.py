@@ -77,6 +77,7 @@ class SolutionsIndex:
     version: str = "1"
     last_synced: str = field(default_factory=_now_iso)
     problems: list[Problem] = field(default_factory=list)
+    calendar: dict[str, int] = field(default_factory=dict)  # "YYYY-MM-DD" → submission count
 
     @classmethod
     def empty(cls) -> SolutionsIndex:
@@ -88,6 +89,7 @@ class SolutionsIndex:
             version=d.get("version", "1"),
             last_synced=d.get("last_synced", _now_iso()),
             problems=[Problem.from_dict(p) for p in d.get("problems", [])],
+            calendar=d.get("calendar", {}),
         )
 
     def to_dict(self) -> dict:

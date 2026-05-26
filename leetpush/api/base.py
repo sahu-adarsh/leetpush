@@ -20,3 +20,12 @@ class LeetCodeAPI(ABC):
         """Return submission detail with keys:
         code, runtime_ms (int|None), memory_mb (float|None), lang (str)
         """
+
+    @abstractmethod
+    def get_submission_calendar(self, username: str) -> dict[str, int]:
+        """Return {date_str: count} for every day the user has submitted.
+
+        Sourced from LeetCode's userCalendar — same data as the profile
+        contribution graph, so it covers all historical activity.
+        date_str format: "YYYY-MM-DD"
+        """

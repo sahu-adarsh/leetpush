@@ -40,7 +40,14 @@ def _level(count: int) -> int:
 # ---------------------------------------------------------------------------
 
 def _build_counts(index: SolutionsIndex) -> dict[date, int]:
-    """Map each calendar date to the number of submissions on that day."""
+    """Map each calendar date to the number of submissions on that day.
+
+    Prefers index.calendar (populated from LeetCode's userCalendar API, which
+    covers the full account history) over counting synced problems, which only
+    reflects the last ~20 submissions due to LeetCode API limits.
+    """
+    if index.calendar:
+        return {date.fromisoformat(d): c for d, c in index.calendar.items()}
     counts: dict[date, int] = defaultdict(int)
     for problem in index.problems:
         for sub in problem.submissions:

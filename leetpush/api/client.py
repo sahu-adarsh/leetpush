@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
 import re
+from datetime import date, timezone
+
 import requests
 
 from .base import LeetCodeAPI
@@ -30,6 +33,16 @@ query recentAcSubmissions($username: String!, $limit: Int!) {
     titleSlug
     timestamp
     lang
+  }
+}
+"""
+
+_CALENDAR_QUERY = """
+query userProfileCalendar($username: String!) {
+  matchedUser(username: $username) {
+    userCalendar {
+      submissionCalendar
+    }
   }
 }
 """
@@ -107,4 +120,13 @@ class LeetCodeClient(LeetCodeAPI):
             "runtime_ms": _parse_runtime(detail.get("runtimeDisplay")),
             "memory_mb": _parse_memory(detail.get("memoryDisplay")),
             "lang": detail["lang"]["name"],
+        }
+
+    def get_submission_calendar(self, username: str) -> dict[str, int]:
+        data = self._query(_CALENDAR_QUERY, {"username": username})
+        raw = data["matchedUser"]["userCalendar"]["submissionCalendar"]
+        ts_map: dict[str, int] = json.loads(raw)
+        return {
+            date.fromtimestamp(int(ts), tz=timezone.utc).isoformat(): count
+            for ts, count in ts_map.items()
         }
