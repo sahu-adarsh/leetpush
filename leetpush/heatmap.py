@@ -109,13 +109,18 @@ def _month_labels(cols: list[list[tuple[date, int]]]) -> str:
     for col_idx, week in enumerate(cols):
         first = week[0][0]
         if first.month != prev:
-            x = MARGIN_LEFT + col_idx * STEP
-            parts.append(
-                f'<text x="{x}" y="{MARGIN_TOP - 5}" '
-                f'font-size="9" font-family="sans-serif" fill="#767676">'
-                f'{first.strftime("%b")}</text>'
-            )
             prev = first.month
+            # Only label this month if its first Sunday falls in the first 7 days,
+            # meaning this column is the first full week of the month.  Skipping
+            # partial months at the left edge prevents labels from overlapping when
+            # the window starts mid-month (e.g. "May" col 0 + "Jun" col 1 = 13px gap).
+            if first.day <= 7:
+                x = MARGIN_LEFT + col_idx * STEP
+                parts.append(
+                    f'<text x="{x}" y="{MARGIN_TOP - 5}" '
+                    f'font-size="9" font-family="sans-serif" fill="#767676">'
+                    f'{first.strftime("%b")}</text>'
+                )
     return "".join(parts)
 
 
