@@ -78,6 +78,7 @@ class SolutionsIndex:
     last_synced: str = field(default_factory=_now_iso)
     problems: list[Problem] = field(default_factory=list)
     calendar: dict[str, int] = field(default_factory=dict)  # "YYYY-MM-DD" → submission count
+    stats: dict[str, int] = field(default_factory=dict)    # {total, easy, medium, hard} from API
 
     @classmethod
     def empty(cls) -> SolutionsIndex:
@@ -90,6 +91,7 @@ class SolutionsIndex:
             last_synced=d.get("last_synced", _now_iso()),
             problems=[Problem.from_dict(p) for p in d.get("problems", [])],
             calendar=d.get("calendar", {}),
+            stats=d.get("stats", {}),
         )
 
     def to_dict(self) -> dict:
@@ -119,10 +121,16 @@ class SolutionsIndex:
 
     @property
     def total(self) -> int:
-        return len(self.problems)
+        return self.stats.get("total", len(self.problems))
 
     @property
     def by_difficulty(self) -> dict[str, int]:
+        if self.stats:
+            return {
+                "Easy": self.stats.get("easy", 0),
+                "Medium": self.stats.get("medium", 0),
+                "Hard": self.stats.get("hard", 0),
+            }
         counts: dict[str, int] = {"Easy": 0, "Medium": 0, "Hard": 0}
         for p in self.problems:
             counts[p.difficulty] = counts.get(p.difficulty, 0) + 1

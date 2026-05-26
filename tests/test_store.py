@@ -27,10 +27,12 @@ def _sample_index() -> SolutionsIndex:
 
 def test_round_trip(tmp_repo: Path) -> None:
     original = _sample_index()
+    original.stats = {"total": 42, "easy": 10, "medium": 20, "hard": 12}
     save_index(tmp_repo, original)
 
     loaded = load_index(tmp_repo)
-    assert loaded.total == 1
+    assert loaded.total == 42          # stats take precedence over len(problems)
+    assert loaded.stats["easy"] == 10
     p = loaded.get_problem("two-sum")
     assert p is not None
     assert p.title == "Two Sum"

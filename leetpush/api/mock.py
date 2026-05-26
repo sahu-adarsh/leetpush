@@ -169,6 +169,19 @@ class MockLeetCodeClient(LeetCodeAPI):
             raise KeyError(f"Mock has no submission with id '{submission_id}'")
         return _DETAILS[submission_id]
 
+    def get_profile_stats(self, username: str) -> dict[str, int]:
+        easy = sum(1 for s in _SUBMISSIONS if _PROBLEMS.get(s["titleSlug"], {}).get("difficulty") == "Easy")
+        medium = sum(1 for s in _SUBMISSIONS if _PROBLEMS.get(s["titleSlug"], {}).get("difficulty") == "Medium")
+        hard = sum(1 for s in _SUBMISSIONS if _PROBLEMS.get(s["titleSlug"], {}).get("difficulty") == "Hard")
+        # deduplicate by slug
+        slugs = {s["titleSlug"] for s in _SUBMISSIONS}
+        by_diff: dict[str, int] = {"Easy": 0, "Medium": 0, "Hard": 0}
+        for slug in slugs:
+            d = _PROBLEMS.get(slug, {}).get("difficulty", "")
+            if d in by_diff:
+                by_diff[d] += 1
+        return {"total": len(slugs), "easy": by_diff["Easy"], "medium": by_diff["Medium"], "hard": by_diff["Hard"]}
+
     def get_submission_calendar(self, username: str) -> dict[str, int]:
         counts: dict[str, int] = {}
         for sub in _SUBMISSIONS:

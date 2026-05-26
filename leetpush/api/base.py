@@ -22,6 +22,10 @@ class LeetCodeAPI(ABC):
         """
 
     @abstractmethod
+    def get_profile_stats(self, username: str) -> dict[str, int]:
+        """Return {total, easy, medium, hard} from the user's LeetCode profile."""
+
+    @abstractmethod
     def get_submission_calendar(self, username: str) -> dict[str, int]:
         """Return {date_str: count} for every day the user has submitted.
 

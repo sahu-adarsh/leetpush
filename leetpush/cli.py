@@ -138,13 +138,14 @@ def sync(mock: bool, session: str | None, username: str | None, limit: int, repo
             index.upsert_problem(problem)
             new_count += 1
 
-    # Fetch full submission calendar for the heatmap (covers all-time history;
-    # recentAcSubmissionList is capped at ~20 by LeetCode's API)
-    if not mock:
-        click.echo("Fetching submission calendar...")
-        index.calendar = api.get_submission_calendar(username)
-    else:
-        index.calendar = api.get_submission_calendar("mock_user")
+    # Fetch real profile stats and full submission calendar.
+    # recentAcSubmissionList is capped at ~20 by LeetCode's server — these two
+    # calls give us accurate counts and full heatmap history instead.
+    lc_user = username or "mock_user"
+    click.echo("Fetching profile stats...")
+    index.stats = api.get_profile_stats(lc_user)
+    click.echo("Fetching submission calendar...")
+    index.calendar = api.get_submission_calendar(lc_user)
 
     # Persist index + regenerate root README + heatmap
     save_index(repo_root, index)

@@ -37,6 +37,19 @@ query recentAcSubmissions($username: String!, $limit: Int!) {
 }
 """
 
+_PROFILE_STATS_QUERY = """
+query userProblemsSolved($username: String!) {
+  matchedUser(username: $username) {
+    submitStatsGlobal {
+      acSubmissionNum {
+        difficulty
+        count
+      }
+    }
+  }
+}
+"""
+
 _CALENDAR_QUERY = """
 query userProfileCalendar($username: String!) {
   matchedUser(username: $username) {
@@ -121,6 +134,19 @@ class LeetCodeClient(LeetCodeAPI):
             "memory_mb": _parse_memory(detail.get("memoryDisplay")),
             "lang": detail["lang"]["name"],
         }
+
+    def get_profile_stats(self, username: str) -> dict[str, int]:
+        """Return {total, easy, medium, hard} — real counts from LeetCode profile."""
+        data = self._query(_PROFILE_STATS_QUERY, {"username": username})
+        ac_nums = data["matchedUser"]["submitStatsGlobal"]["acSubmissionNum"]
+        result: dict[str, int] = {}
+        for item in ac_nums:
+            diff = item["difficulty"]
+            if diff == "All":
+                result["total"] = item["count"]
+            else:
+                result[diff.lower()] = item["count"]
+        return result
 
     def get_submission_calendar(self, username: str) -> dict[str, int]:
         data = self._query(_CALENDAR_QUERY, {"username": username})
