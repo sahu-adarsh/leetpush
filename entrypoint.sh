@@ -15,8 +15,8 @@ lp sync \
 
 # Commit and push if there are changes
 cd "$REPO"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-git config user.name "github-actions[bot]"
+git config user.email "${INPUT_AUTHOR_EMAIL}"
+git config user.name "${INPUT_AUTHOR_NAME}"
 git add -A
 
 if git diff --staged --quiet; then

@@ -16,6 +16,14 @@ inputs:
   username:
     description: 'Your LeetCode username (shown in your profile URL)'
     required: true
+  author_name:
+    description: 'Git commit author name — use your GitHub username so commits appear on your profile'
+    required: false
+    default: 'github-actions[bot]'
+  author_email:
+    description: 'Git commit author email — use your GitHub noreply email (<id>+<username>@users.noreply.github.com) so commits count toward your contribution graph'
+    required: false
+    default: '41898282+github-actions[bot]@users.noreply.github.com'
 
 runs:
   using: 'docker'
