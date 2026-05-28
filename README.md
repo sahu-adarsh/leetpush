@@ -25,6 +25,16 @@ LeetPush is a GitHub Action (plus CLI) that pulls your accepted LeetCode submiss
 
 ---
 
+## How it works
+
+<div align="center">
+
+![LeetPush architecture](docs/architecture.png)
+
+</div>
+
+---
+
 ## Quick Start (5 minutes)
 
 ### Step 1: Create a solutions repo on GitHub
