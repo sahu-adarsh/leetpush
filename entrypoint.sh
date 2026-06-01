@@ -1,6 +1,13 @@
 #!/bin/sh
 set -e
 
+# Skip sync on weekends in IST (Saturday=6, Sunday=7)
+DOW=$(TZ=Asia/Kolkata date +%u)
+if [ "$DOW" -ge 6 ]; then
+  echo "Weekend in IST (day $DOW) — skipping sync."
+  exit 0
+fi
+
 # GitHub Docker actions mount the repo at /github/workspace
 REPO=/github/workspace
 

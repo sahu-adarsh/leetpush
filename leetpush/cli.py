@@ -32,7 +32,7 @@ name: Sync LeetCode Solutions
 
 on:
   schedule:
-    - cron: '0 2 * * *'   # daily at 02:00 UTC — adjust to your timezone
+    - cron: '0 2 * * 1-5'  # weekdays at 02:00 UTC (07:30 IST Mon–Fri)
   workflow_dispatch:        # run manually: repo → Actions → Sync LeetCode Solutions → Run workflow
 
 permissions:
