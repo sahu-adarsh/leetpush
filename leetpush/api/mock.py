@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, timezone
+from datetime import date, timedelta, timezone
 
 from .base import LeetCodeAPI
 
@@ -182,9 +182,15 @@ class MockLeetCodeClient(LeetCodeAPI):
                 by_diff[d] += 1
         return {"total": len(slugs), "easy": by_diff["Easy"], "medium": by_diff["Medium"], "hard": by_diff["Hard"]}
 
-    def get_submission_calendar(self, username: str) -> dict[str, int]:
+    def get_submission_calendar(self, username: str) -> tuple[dict[str, int], int]:
         counts: dict[str, int] = {}
         for sub in _SUBMISSIONS:
             d = date.fromtimestamp(int(sub["timestamp"]), tz=timezone.utc).isoformat()
             counts[d] = counts.get(d, 0) + 1
-        return counts
+        streak = 0
+        today = date.today()
+        d = today if counts.get(today.isoformat(), 0) > 0 else today - timedelta(days=1)
+        while counts.get(d.isoformat(), 0) > 0:
+            streak += 1
+            d -= timedelta(days=1)
+        return counts, streak

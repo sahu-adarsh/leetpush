@@ -54,6 +54,7 @@ _CALENDAR_QUERY = """
 query userProfileCalendar($username: String!) {
   matchedUser(username: $username) {
     userCalendar {
+      streak
       submissionCalendar
     }
   }
@@ -150,11 +151,12 @@ class LeetCodeClient(LeetCodeAPI):
                 result[diff.lower()] = item["count"]
         return result
 
-    def get_submission_calendar(self, username: str) -> dict[str, int]:
+    def get_submission_calendar(self, username: str) -> tuple[dict[str, int], int]:
         data = self._query(_CALENDAR_QUERY, {"username": username})
-        raw = data["matchedUser"]["userCalendar"]["submissionCalendar"]
-        ts_map: dict[str, int] = json.loads(raw)
-        return {
+        cal = data["matchedUser"]["userCalendar"]
+        ts_map: dict[str, int] = json.loads(cal["submissionCalendar"])
+        calendar = {
             datetime.fromtimestamp(int(ts), tz=timezone.utc).date().isoformat(): count
             for ts, count in ts_map.items()
         }
+        return calendar, cal.get("streak", 0)

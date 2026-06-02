@@ -59,8 +59,9 @@ def _build_counts(index: SolutionsIndex) -> dict[date, int]:
 def compute_streaks(index: SolutionsIndex, today: Optional[date] = None) -> tuple[int, int]:
     """Return (current_streak, longest_streak) in days.
 
-    Current streak: consecutive days ending today (or yesterday if today is empty).
-    Longest streak: longest consecutive run ever.
+    Current streak: uses index.lc_streak (LeetCode's authoritative value) when
+    available, otherwise falls back to counting consecutive days from the calendar.
+    Longest streak: longest consecutive run ever from the calendar data.
     """
     today = today or date.today()
     counts = _build_counts(index)
@@ -68,14 +69,7 @@ def compute_streaks(index: SolutionsIndex, today: Optional[date] = None) -> tupl
     if not counts:
         return 0, 0
 
-    # Current streak — walk backwards from today
-    cur = 0
-    d = today
-    if counts.get(d, 0) == 0:
-        d -= timedelta(days=1)  # allow gap for today not yet solved
-    while counts.get(d, 0) > 0:
-        cur += 1
-        d -= timedelta(days=1)
+    cur = index.lc_streak if index.lc_streak > 0 else _compute_current_streak(counts, today)
 
     # Longest streak — scan sorted date list for consecutive runs
     all_dates = sorted(counts.keys())
@@ -89,6 +83,17 @@ def compute_streaks(index: SolutionsIndex, today: Optional[date] = None) -> tupl
             run = 1
 
     return cur, best
+
+
+def _compute_current_streak(counts: dict[date, int], today: date) -> int:
+    cur = 0
+    d = today
+    if counts.get(d, 0) == 0:
+        d -= timedelta(days=1)
+    while counts.get(d, 0) > 0:
+        cur += 1
+        d -= timedelta(days=1)
+    return cur
 
 
 # ---------------------------------------------------------------------------
