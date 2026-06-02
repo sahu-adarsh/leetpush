@@ -117,6 +117,9 @@ def sync(mock: bool, session: str | None, username: str | None, limit: int, repo
 
             # Fetch code + detail
             detail = api.get_submission_detail(sub_id)
+            if detail is None:
+                click.echo(f"\n  [skip] submission {sub_id} ({slug}/{lang}): detail unavailable", err=True)
+                continue
 
             # Fetch problem metadata if not already in index
             if existing_problem is None:

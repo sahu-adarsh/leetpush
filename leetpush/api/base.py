@@ -16,7 +16,7 @@ class LeetCodeAPI(ABC):
         """
 
     @abstractmethod
-    def get_submission_detail(self, submission_id: str) -> dict:
+    def get_submission_detail(self, submission_id: str) -> dict | None:
         """Return submission detail with keys:
         code, runtime_ms (int|None), memory_mb (float|None), lang (str)
         """

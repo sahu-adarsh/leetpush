@@ -125,9 +125,11 @@ class LeetCodeClient(LeetCodeAPI):
         data = self._query(_RECENT_AC_QUERY, {"username": username, "limit": limit})
         return data["recentAcSubmissionList"] or []
 
-    def get_submission_detail(self, submission_id: str) -> dict:
+    def get_submission_detail(self, submission_id: str) -> dict | None:
         data = self._query(_SUBMISSION_DETAIL_QUERY, {"submissionId": int(submission_id)})
         detail = data["submissionDetails"]
+        if detail is None:
+            return None
         return {
             "code": detail["code"],
             "runtime_ms": _parse_runtime(detail.get("runtimeDisplay")),
