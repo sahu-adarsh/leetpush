@@ -46,7 +46,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: sahu-adarsh/leetpush@v1
+      - uses: sahu-adarsh/leetpush@v5
         with:
           leetcode_session: ${{ secrets.LEETCODE_SESSION }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
