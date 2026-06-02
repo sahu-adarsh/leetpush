@@ -148,7 +148,7 @@ def sync(mock: bool, session: str | None, username: str | None, limit: int, repo
     click.echo("Fetching profile stats...")
     index.stats = api.get_profile_stats(lc_user)
     click.echo("Fetching submission calendar...")
-    index.calendar = api.get_submission_calendar(lc_user)
+    index.calendar, index.lc_streak = api.get_submission_calendar(lc_user)
 
     # Persist index + regenerate root README + heatmap
     save_index(repo_root, index)

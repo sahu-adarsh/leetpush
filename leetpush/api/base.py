@@ -26,10 +26,11 @@ class LeetCodeAPI(ABC):
         """Return {total, easy, medium, hard} from the user's LeetCode profile."""
 
     @abstractmethod
-    def get_submission_calendar(self, username: str) -> dict[str, int]:
-        """Return {date_str: count} for every day the user has submitted.
+    def get_submission_calendar(self, username: str) -> tuple[dict[str, int], int]:
+        """Return ({date_str: count}, current_streak) from LeetCode's userCalendar.
 
-        Sourced from LeetCode's userCalendar — same data as the profile
-        contribution graph, so it covers all historical activity.
+        The calendar covers all historical activity (same data as the profile
+        contribution graph). The streak is LeetCode's own authoritative value,
+        calculated in the user's local timezone.
         date_str format: "YYYY-MM-DD"
         """

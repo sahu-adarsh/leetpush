@@ -79,6 +79,7 @@ class SolutionsIndex:
     problems: list[Problem] = field(default_factory=list)
     calendar: dict[str, int] = field(default_factory=dict)  # "YYYY-MM-DD" → submission count
     stats: dict[str, int] = field(default_factory=dict)    # {total, easy, medium, hard} from API
+    lc_streak: int = 0                                      # authoritative streak from LeetCode's API
 
     @classmethod
     def empty(cls) -> SolutionsIndex:
@@ -92,6 +93,7 @@ class SolutionsIndex:
             problems=[Problem.from_dict(p) for p in d.get("problems", [])],
             calendar=d.get("calendar", {}),
             stats=d.get("stats", {}),
+            lc_streak=d.get("lc_streak", 0),
         )
 
     def to_dict(self) -> dict:
